@@ -167,9 +167,20 @@ class Tree extends Component {
     function convertToSteps(data, parentId = "") {
       let steps = [];
       data.forEach((item, index) => {
+        let title = item.title;
+        let title1 = item.title1;
+
+        if (item.title === "" || item.title === undefined) {
+          title = "no message";
+        }
+        if (item.title1 === undefined || item.title1 === "") {
+          title1 = "no message";
+        }
+        console.log("title", title1);
+
         const step = {
           id: parentId ? `${parentId}_${index}` : `${index}`,
-          message: item.title,
+          message: title,
           trigger: item.children
             ? `${
                 parentId
@@ -185,25 +196,33 @@ class Tree extends Component {
             id: parentId
               ? `${parentId}_${index}_before_option`
               : `${index}_before_option`,
-            message: item.title1,
+            message: title1,
             trigger:
               item.children.length > 1
-                ?( `${
+                ? `${
                     parentId ? `${parentId}_${index}_option` : `${index}_option`
-                  }`)
-                : (parentId
+                  }`
+                : parentId
                 ? `${parentId}_${index}_0`
-                : `0_${index}`)
+                : `0_${index}`
           };
           steps.push(stepbefore);
           if (item.children.length > 1) {
             let options = [];
             item.children.forEach((child, num) => {
+              let childTitle = child.title;
+              if (item.title === "" || undefined) {
+                childTitle = "no message";
+              }
               const option = {
                 value: num,
-                label: child.title,
+                label: childTitle,
                 trigger: `${
-                  parentId ? (child.children? `${parentId}_${index}_${num}_before_option`:`end`) : `end`
+                  parentId
+                    ? child.children
+                      ? `${parentId}_${index}_${num}_before_option`
+                      : `end`
+                    : `end`
                 }`
               };
               options.push(option);
@@ -213,7 +232,7 @@ class Tree extends Component {
               options: options
             };
             steps.push(option_step);
-          } 
+          }
         }
 
         if (item.children) {
@@ -225,10 +244,20 @@ class Tree extends Component {
     }
     this.setState({ savedNodes: this.initializedСopy(this.state.nodes) });
     this.context.setJsonData(
-      convertToSteps(this.initializedСopy(this.state.nodes))
+      convertToSteps(this.initializedСopy(this.state.nodes)).concat({
+        id: "end",
+        message: "Thank you!",
+        end: true
+      })
     );
-    console.log("raw data", this.initializedСopy(this.state.nodes));
-    console.log(convertToSteps(this.initializedСopy(this.state.nodes)));
+    console.log(
+      "hihi",
+      convertToSteps(this.initializedСopy(this.state.nodes)).concat({
+        id: "end",
+        message: "Thank you!",
+        end: true
+      })
+    );
   }
 
   loadState() {

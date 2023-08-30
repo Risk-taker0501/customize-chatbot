@@ -77,18 +77,10 @@ const Chatbot = props => {
 
   useEffect(() => {
     if (jsonData.length > 0) {
-      let tempSteps = jsonData;
-      tempSteps.push({
-        id: "end",
-        message: "Thank you!",
-        end: true
-      });
-      setChatSteps(tempSteps);
+      setChatSteps(jsonData);
       setChatKey(chatKey + 1);
-
-      console.log("juju", tempSteps);
     }
-  }, [jsonData]);
+  }, [ jsonData]);
 
   const startChat = () => {
     setShowChat(true);
