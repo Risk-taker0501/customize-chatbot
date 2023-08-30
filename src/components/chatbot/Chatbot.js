@@ -74,13 +74,12 @@ const Chatbot = props => {
     }
   ]);
   const { jsonData } = useContext(DialogFlowContext);
-
   useEffect(() => {
-    if (jsonData.length > 0) {
+    if (jsonData.length > 0 && chatSteps !== jsonData) {
       setChatSteps(jsonData);
       setChatKey(chatKey + 1);
     }
-  }, [ jsonData]);
+  }, [chatKey, chatSteps, jsonData]);
 
   const startChat = () => {
     setShowChat(true);

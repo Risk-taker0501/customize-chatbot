@@ -176,7 +176,6 @@ class Tree extends Component {
         if (item.title1 === undefined || item.title1 === "") {
           title1 = "no message";
         }
-        console.log("title", title1);
 
         const step = {
           id: parentId ? `${parentId}_${index}` : `${index}`,
@@ -197,14 +196,15 @@ class Tree extends Component {
               ? `${parentId}_${index}_before_option`
               : `${index}_before_option`,
             message: title1,
-            trigger:
-              item.children.length > 1
+            trigger: item.children.length>0
+              ? (item.children.length > 1
                 ? `${
                     parentId ? `${parentId}_${index}_option` : `${index}_option`
                   }`
                 : parentId
                 ? `${parentId}_${index}_0`
-                : `0_${index}`
+                : `0_${index}`)
+              : "end"
           };
           steps.push(stepbefore);
           if (item.children.length > 1) {
@@ -243,6 +243,7 @@ class Tree extends Component {
       return steps;
     }
     this.setState({ savedNodes: this.initializedСopy(this.state.nodes) });
+    console.log("raw", this.initializedСopy(this.state.nodes));
     this.context.setJsonData(
       convertToSteps(this.initializedСopy(this.state.nodes)).concat({
         id: "end",

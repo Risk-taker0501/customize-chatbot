@@ -17,9 +17,9 @@ const ControlPanel = (props) => {
 
     return (
         <div className="ControlPanel">
-            <button className="ControlPanel-Button ControlPanel-Button_save" 
+            <button className="ControlPanel-Button ControlPanel-Button_save"  style={{backgroundColor:"gray", color:"white"}}
               onClick={saveState}>
-                Save
+                Test with Chatbot!
             </button>
             { renderLoadButton() }
         </div>
